@@ -1,0 +1,33 @@
+[project]
+name = "iot_backend"
+version = "0.0.1"
+
+authors = [
+  { name="Jonas Wuehr", email="jonaswuehrmaintainer@gmail.com" },
+]
+
+maintainers = [
+  { name="Jonas Wuehr", email="jonaswuehrmaintainer@gmail.com" },
+]
+
+description = "Iot sensor backend"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux"
+]
+
+dependencies = [
+    "click",
+    "psycopg",
+    "flask",
+    "requests",
+    "jsonify"
+]
+
+[project.scripts]
+iot_backend_user_api = "iot_backend.api_user.base:main"
+iot_backend_ttn_storage = "iot_backend.ttn_connector.storage:main"
