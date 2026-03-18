@@ -22,10 +22,10 @@ classifiers = [
 
 dependencies = [
     "click",
-    "psycopg",
-    "flask",
     "requests",
-    "jsonify"
+    "psycopg",
+    "fastapi",
+    "uvicorn"
 ]
 
 [project.scripts]

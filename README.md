@@ -28,7 +28,7 @@ pip3 install .
 
 ### iot_backend_user_api
 
-This application provides the unified REST API for data processing on ```Port 5000```. It can be tested with the Firefox plugin ```RESTer```.
+This application provides the unified REST API for data processing on ```Port 5000```. The documentation is under the ```/docs``` endpoint.
 ~~~
 source ./venv/bin/activate
 iot_backend_user_api --help

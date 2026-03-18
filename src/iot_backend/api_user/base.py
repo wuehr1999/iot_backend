@@ -1,21 +1,22 @@
 #! /usr/bin/env python3 
 # -*- coding: utf-8 -*- 
 
-import flask, requests, jsonify
+from fastapi import FastAPI
+import uvicorn
 import click
 import iot_backend.postgres_connector.postgres_connector as pg
 import iot_backend.types.temperature as temp
 
+
 @click.command()
 @click.option("--host", default = "localhost", help = "Host IP address")
 def main(host: str):
-
-    db = pg.PostgresConnector(host = host)
    
+    db = pg.PostgresConnector(host = host)
+    
+    app = FastAPI()
 
-    app = flask.Flask(__name__)
-
-    @app.route('/temperature', methods = ['GET'])
+    @app.get('/temperature')
     def get_temperature():
         values = db.fetch_query("SELECT * FROM temperature")
         data = "{}"
@@ -25,12 +26,11 @@ def main(host: str):
                 data += temp.Temperature(e[0], e[2], e[1], e[3]).to_json()
                 data += ","
             data = data[:-1] + "]}"
+        return data
 
-        return app.response_class((data, '\n'), mimetype='application/json')
-
-    @app.route('/temperature', methods = ['DELETE'])
+    @app.delete('/temperature')
     def clear_temperature():
         db.insert_query("DELETE FROM temperature")
-        return app.response_class(("{}", '\n'), mimetype='application/json')
+        return "{}"
 
-    app.run(debug = True)
+    uvicorn.run(app, host="localhost", port=5000)
