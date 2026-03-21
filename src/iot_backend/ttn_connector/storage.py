@@ -6,6 +6,8 @@ import subprocess
 import json
 import re
 import time
+from datetime import datetime
+from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 import iot_backend.types.temperature as temp
 import iot_backend.postgres_connector.postgres_connector as pg
@@ -43,7 +45,10 @@ def main(application: str, key: str, interval: int, host: str):
             euis.append(eui)
             if not eui in last_euis:
                 t = temp.Temperature(dev_id = eui,
-                    celsius = d['result']['uplink_message']['decoded_payload']['temperature'])         
-                db.store_value(t)
+                    celsius = d['result']['uplink_message']['decoded_payload']['temperature'],
+                    backend_timestamp = datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))         
+                with Session(db.engine) as session:
+                    session.add(t)
+                    session.commit()
         last_euis = euis
         time.sleep(interval)

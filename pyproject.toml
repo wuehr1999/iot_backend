@@ -23,9 +23,10 @@ classifiers = [
 dependencies = [
     "click",
     "requests",
-    "psycopg",
+    "psycopg2-binary",
     "fastapi",
-    "uvicorn"
+    "uvicorn",
+    "sqlmodel"
 ]
 
 [project.scripts]
