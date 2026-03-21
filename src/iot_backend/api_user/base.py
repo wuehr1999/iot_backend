@@ -4,6 +4,8 @@
 from fastapi import FastAPI
 import uvicorn
 import click
+from sqlmodel import Field, Session, SQLModel, create_engine, select, delete
+
 import iot_backend.postgres_connector.postgres_connector as pg
 import iot_backend.types.temperature as temp
 
@@ -18,19 +20,17 @@ def main(host: str):
 
     @app.get('/temperature')
     def get_temperature():
-        values = db.fetch_query("SELECT * FROM temperature")
-        data = "{}"
-        if len(values) > 0:
-            data = '{"data":['
-            for e in values:
-                data += temp.Temperature(e[0], e[2], e[1], e[3]).to_json()
-                data += ","
-            data = data[:-1] + "]}"
-        return data
+        with Session(db.engine) as session:
+            statement = select(temp.Temperature)
+            temperatures = session.exec(statement).all()
+            return list(temperatures)
 
     @app.delete('/temperature')
     def clear_temperature():
-        db.insert_query("DELETE FROM temperature")
+        with Session(db.engine) as session:
+            statement = delete(temp.Temperature)
+            temperatures = session.exec(statement)
+            session.commit()
         return "{}"
 
     uvicorn.run(app, host="localhost", port=5000)
