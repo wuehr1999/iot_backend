@@ -11,10 +11,10 @@ import iot_backend.types.temperature as temp
 
 
 @click.command()
-@click.option("--host", default = "localhost", help = "Host IP address")
+@click.option("--host", default = "0.0.0.0", help = "Host IP address")
 def main(host: str):
    
-    db = pg.PostgresConnector(host = host)
+    db = pg.PostgresConnector()
     
     app = FastAPI()
 
@@ -33,4 +33,4 @@ def main(host: str):
             session.commit()
         return "{}"
 
-    uvicorn.run(app, host="localhost", port=5000)
+    uvicorn.run(app, host = host, port=5000)
