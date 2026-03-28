@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.temperature
     id integer,
     dev_id text NOT NULL,
     accquisition_time timestamp with time zone,
-    backend_timestamp time with time zone NOT NULL,
+    backend_time time with time zone NOT NULL,
     celsius numeric NOT NULL,
     additions text[],
     PRIMARY KEY (id)
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS public.gps
     id integer,
     dev_id text NOT NULL,
     accquisition_time timestamp with time zone,
-    backend_timestamp time with time zone NOT NULL,
+    backend_time time with time zone NOT NULL,
     latitude numeric NOT NULL,
     longitude numeric NOT NULL,
     kmh numeric,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS public.level
     id integer,
     dev_id text NOT NULL,
     accquisition_time timestamp with time zone,
-    backend_timestamp time with time zone NOT NULL,
+    backend_time time with time zone NOT NULL,
     meter numeric NOT NULL,
     additions text[],
     PRIMARY KEY (id)
