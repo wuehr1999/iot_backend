@@ -50,6 +50,11 @@ Options:
 ### iot_backend_ttn_storage
 
 This application synchronizes the database to the TTN Application message storage.
+The message storage has to be activated for the TTN application and an API key needs to be generated.
+
+<p align="center">
+   <img src="docs/img/ttn_message_storage.png" width="80%">
+</p>
 
 ~~~
 source ./venv/vin/activate
@@ -67,7 +72,7 @@ Options:
 
 # Roadmap
 
-* [ ] Docker enviroment
+* [x] Docker enviroment
 * [ ] Define data formats for different sensor types
 * [ ] Support different sensor types
 * [ ] Define the featureset for the REST API
