@@ -86,6 +86,7 @@ class TtnMassStorageFilter(filter_base.Filter):
             euis = []
             for d in data_raw:
                 eui = d['result']['end_device_ids']['device_id']
+                euis.append(eui)
                 if not eui in self._last_euis and self._dev_id == eui:
                     if typeslist.TypesList.TEMPERATURE in self._sensitivity_list: 
                         try:
