@@ -9,22 +9,24 @@
 # | | (_) | |_  | |_| | | | | | | | |  __/ |
 # |_|\___/ \__|  \__,_|_| |_|_|_| |_|\___|_|
 # ------------------------------------------------------------------------
-# File: temperature.py
+# File: sensor.py
 # ------------------------------------------------------------------------
-# Description: Temperature datatype
+# Description: Sensor datatype
 # ------------------------------------------------------------------------
 # Created: 04.04.2026 
 # ------------------------------------------------------------------------
-# Last Modified: 04.04.2026 
+# Last Modified: 05.04.2026 
 # ------------------------------------------------------------------------
 # MIT License
 # ------------------------------------------------------------------------
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
-class Temperature(SQLModel, table = True):
-    id: int | None = Field(default = None, primary_key = True)
-    dev_id: str
-    backend_timestamp: int = None
-    accquisition_timestamp: int = None 
-    celsius: int
+class Sensor(SQLModel, table = True):
+    dev_id: str = Field(primary_key = True)
+    sensor_type: int = Field(primary_key = True)
+    description: str
+    soc: float | None
+    battery_voltage: float | None
+    latitude: float | None
+    longitude: float | None

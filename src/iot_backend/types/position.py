@@ -9,9 +9,9 @@
 # | | (_) | |_  | |_| | | | | | | | |  __/ |
 # |_|\___/ \__|  \__,_|_| |_|_|_| |_|\___|_|
 # ------------------------------------------------------------------------
-# File: temperature.py
+# File: position.py
 # ------------------------------------------------------------------------
-# Description: Temperature datatype
+# Description: Position datatype
 # ------------------------------------------------------------------------
 # Created: 04.04.2026 
 # ------------------------------------------------------------------------
@@ -22,9 +22,13 @@
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
-class Temperature(SQLModel, table = True):
+class Position(SQLModel, table = True):
     id: int | None = Field(default = None, primary_key = True)
     dev_id: str
-    backend_timestamp: int = None
-    accquisition_timestamp: int = None 
-    celsius: int
+    backend_timestamp: int 
+    accquisition_timestamp: int 
+    latitude: float
+    longitude: float
+    kmh: float
+    degrees: float
+    altitude: float

@@ -9,9 +9,9 @@
 # | | (_) | |_  | |_| | | | | | | | |  __/ |
 # |_|\___/ \__|  \__,_|_| |_|_|_| |_|\___|_|
 # ------------------------------------------------------------------------
-# File: postgres_connector.py
+# File: filter.py
 # ------------------------------------------------------------------------
-# Description: Connector to postgres database
+# Description: Filter base implementation
 # ------------------------------------------------------------------------
 # Created: 04.04.2026 
 # ------------------------------------------------------------------------
@@ -20,18 +20,34 @@
 # MIT License
 # ------------------------------------------------------------------------
 
-from sqlmodel import Field, Session, SQLModel, create_engine, select
 
-class PostgresConnector:
+import json
+import iot_backend.types.metadata_wrapper as metadata
 
-    def __init__(self, host: str = 'db', port: int = 5432, dbname: str = "postgres", user: str = "postgres", password: str = "postgres"):
+class Filter:
 
-        con_str = "postgresql://" + user + ":" + password + "@" + host + ":" + str(port) + "/" + dbname
-        print("Connecting to " + con_str)
-        self._engine = create_engine(con_str)
-        
-        SQLModel.metadata.create_all(self._engine)
+    def __init__(self, conf: dict) -> None:
+        self.__init_int__(conf.name, conf.type_list, conf.type_list.debug)
+
+    def __init_int__(self, name: str, type_list: list[int], debug: bool) -> None:
+        self._name: str = name
+        self._type_list: list[int] = type_list
+        self._debug = debug
+
+    def spin(self, data: metadata.MetadataWrapper | None = None) -> metadata.MetadataWrapper | None:
+        return self._spin_impl(data)
+
+    def _spin_impl(self, data: metadata.MetadataWrapper | None) -> metadata.MetadataWrapper | None:
+        return data
+
+    def is_compatible(self, datatype: int) -> bool:
+        return datatype in self._type_list
 
     @property
-    def engine(self):
-        return self._engine
+    def name(self):
+        return self._name
+    
+    @property
+    def debug(self):
+        return self._debug
+
