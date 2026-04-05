@@ -34,6 +34,8 @@ class PipelineDescriptor(SQLModel, table = True):
     description: dict = Field(default_factory=dict, sa_column=Column(JSON))
 
 class PipelineOrchestrator:
+    SPIN_DELAY = 0.1
+
     def __init__(self, host: str= 'db', 
                  port: int = 5432, 
                  dbname: str = 'postgres', 
@@ -76,4 +78,4 @@ class PipelineOrchestrator:
         while True:
             for pl in self._pipelines:
                     pl.spin()
-            time.sleep(1)
+            time.sleep(self.SPIN_DELAY)
