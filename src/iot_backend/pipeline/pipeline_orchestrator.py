@@ -76,3 +76,4 @@ class PipelineOrchestrator:
         while True:
             for pl in self._pipelines:
                     pl.spin()
+            time.sleep(1)
