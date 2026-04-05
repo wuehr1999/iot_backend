@@ -30,5 +30,4 @@ dependencies = [
 ]
 
 [project.scripts]
-iot_backend_user_api = "iot_backend.api_user.base:main"
-iot_backend_ttn_storage = "iot_backend.ttn_connector.storage:main"
+iot_backend = "iot_backend.api_user.base:main"
