@@ -28,24 +28,19 @@ pip3 install .
 
 ### iot_backend_user_api
 
-This application provides the unified REST API for data processing on ```Port 5000```. The documentation is under the ```/docs``` endpoint.
+This application provides the unified REST API for data processing on ```Port 5000```. The documentation is under the ```/docs``` endpoint (```localhost:5000/docs```).
 ~~~
 source ./venv/bin/activate
-iot_backend_user_api --help
-Usage: iot_backend_user_api [OPTIONS]
+iot_backend --help
+Usage: iot_backend [OPTIONS]
 
 Options:
-  --host TEXT  Host IP address
-  --help       Show this message and exit.
+  --host TEXT    Host IP address
+  --dbhost TEXT  Database host IP address
+  --help         Show this message and exit.
 ~~~
 
 #### API endpoints
-
-| Endpoint | Request | Description |
-| -------- | ------- | ----------- |
-| ```/temperature``` | | |
-| | ```GET``` | Get the data of all temperature sensors. |
-| | ```DELETE``` | Delete all temperature data. |
 
 ### iot_backend_ttn_storage
 
@@ -56,25 +51,11 @@ The message storage has to be activated for the TTN application and an API key n
    <img src="docs/img/ttn_message_storage.png" width="80%">
 </p>
 
-~~~
-source ./venv/vin/activate
-iot_backend_ttn_storage --help
-Usage: iot_backend_ttn_storage [OPTIONS]
-
-Options:
-  --application TEXT  Name of the TTN application  [required]
-  --key TEXT          API key  [required]
-  --interval INTEGER  Update interval in seconds
-  --host TEXT         Host IP address
-  --help              Show this message and exit.
-~~~
-
-
 # Roadmap
 
 * [x] Docker enviroment
-* [ ] Define data formats for different sensor types
-* [ ] Support different sensor types
+* [x] Define data formats for different sensor types
+* [x] Support different sensor types
 * [ ] Define the featureset for the REST API
 * [ ] MQTT connection to TTN
 * [ ] Support TTN webhooks
