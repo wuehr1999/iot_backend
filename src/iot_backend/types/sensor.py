@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------
 # Created: 04.04.2026 
 # ------------------------------------------------------------------------
-# Last Modified: 04.04.2026 
+# Last Modified: 05.04.2026 
 # ------------------------------------------------------------------------
 # MIT License
 # ------------------------------------------------------------------------
@@ -24,7 +24,7 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 class Sensor(SQLModel, table = True):
     dev_id: str = Field(primary_key = True)
-    sensor_type: int
+    sensor_type: int = Field(primary_key = True)
     description: str
     soc: float | None
     battery_voltage: float | None

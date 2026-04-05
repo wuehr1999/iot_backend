@@ -26,11 +26,10 @@ import iot_backend.types.metadata_wrapper as metadata
 
 class Filter:
 
-    def __init__(self, conf_json: str,) -> None:
-        conf = json.loads(conf_json)
-        self.__init__(conf.name, conf.type_list, conf.type_list.debug)
+    def __init__(self, conf: dict) -> None:
+        self.__init_int__(conf.name, conf.type_list, conf.type_list.debug)
 
-    def __init__(self, name: str, type_list: list[int], debug: bool) -> None:
+    def __init_int__(self, name: str, type_list: list[int], debug: bool) -> None:
         self._name: str = name
         self._type_list: list[int] = type_list
         self._debug = debug

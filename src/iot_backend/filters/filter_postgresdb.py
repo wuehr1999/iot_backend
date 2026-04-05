@@ -30,17 +30,27 @@ import iot_backend.types.metadata_wrapper as metadata
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 import time
+import json
 
 class PostgresDbFilter(filter_base.Filter):
 
-    def __init__(self, name: str,
+    def __init__(self, conf: dict) -> None:
+        self.__init_int__(name = conf['name'],
+                      host = conf['host'],
+                      port = conf['port'],
+                      dbname = conf['dbname'],
+                      user = conf['user'],
+                      password = conf['password'],
+                      debug = conf['debug'])
+
+    def __init_int__(self, name: str,
             host: str= 'db', port: int = 5432, 
             dbname: str = 'postgres', user: str = 'postgres', password: str = 'postgres',
             debug: bool = False):
-        super().__init__(name, [typeslist.TypesList.TEMPERATURE], debug)
+        super().__init_int__(name, [typeslist.TypesList.TEMPERATURE], debug)
 
         self._db = postgres_connector.PostgresConnector(host, port, dbname, user, password)
-
+    
     def _spin_impl(self, data: metadata.MetadataWrapper | None) -> metadata.MetadataWrapper | None:
         if data is not None:
             with Session(self._db.engine) as session:

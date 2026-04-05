@@ -9,9 +9,9 @@
 # | | (_) | |_  | |_| | | | | | | | |  __/ |
 # |_|\___/ \__|  \__,_|_| |_|_|_| |_|\___|_|
 # ------------------------------------------------------------------------
-# File: postgres_connector.py
+# File: factory.py
 # ------------------------------------------------------------------------
-# Description: Connector to postgres database
+# Description: Factory for filters 
 # ------------------------------------------------------------------------
 # Created: 04.04.2026 
 # ------------------------------------------------------------------------
@@ -20,18 +20,19 @@
 # MIT License
 # ------------------------------------------------------------------------
 
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+import iot_backend.filters.base.filter as filter_base
+import iot_backend.filters.filter_ttn_mass_storage as ttnfilter
+import iot_backend.filters.filter_postgresdb as dbfilter
 
-class PostgresConnector:
+class FilterFactory:
 
-    def __init__(self, host: str = 'db', port: int = 5432, dbname: str = "postgres", user: str = "postgres", password: str = "postgres"):
+    def __init__(self):
+        pass
 
-        con_str = "postgresql://" + user + ":" + password + "@" + host + ":" + str(port) + "/" + dbname
-        print("Connecting to " + con_str)
-        self._engine = create_engine(con_str)
-        
-        SQLModel.metadata.create_all(self._engine)
-
-    @property
-    def engine(self):
-        return self._engine
+    def create(self, filtertype: str, conf: dict) -> filter_base.Filter | None:
+        if "source_ttn_masstorage" == filtertype:
+            return ttnfilter.TtnMassStorageFilter(conf = conf) 
+        elif "sink_postresdb" == filtertype:
+            return dbfilter.PostgresDbFilter(conf = conf) 
+        else:
+            return None

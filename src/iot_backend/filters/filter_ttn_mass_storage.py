@@ -35,10 +35,21 @@ import time
 from datetime import datetime
 
 class TtnMassStorageFilter(filter_base.Filter):
+    POLL_OVERHEAD: int = 5
 
-    def __init__(self, name: str, dev_id: str, sensitivity_list: list[int],
+    def __init__(self, conf: dict) -> None:
+        tl = typeslist.TypesList()
+        self.__init_int__(name = conf['name'],
+                      dev_id = conf['dev_id'],
+                      sensitivity_list = tl.from_name_list(conf['sensitivity_list']),
+                      application = conf['application'],
+                      key = conf['key'],
+                      interval = conf['interval'],
+                      debug = conf['debug'])
+
+    def __init_int__(self, name: str, dev_id: str, sensitivity_list: list[int],
                  application: str, key: str, interval: int, debug: bool = False):
-        super().__init__(name, [typeslist.TypesList.TEMPERATURE], debug)
+        super().__init_int__(name, [typeslist.TypesList.TEMPERATURE], debug)
         self._dev_id = dev_id
         self._sensitivity_list = sensitivity_list
         for s in self._sensitivity_list:
@@ -51,7 +62,7 @@ class TtnMassStorageFilter(filter_base.Filter):
         self._last_euis = []
 
     def _pull(self):
-        interval = self._interval + 5
+        interval = self._interval + self.POLL_OVERHEAD
         cmd = [ "curl" ]
         cmd += [
             "-G", f"https://eu1.cloud.thethings.network/api/v3/as/applications/{self._application}/packages/storage/uplink_message",
