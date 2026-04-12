@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------
 # Created: 04.04.2026 
 # ------------------------------------------------------------------------
-# Last Modified: 04.04.2026 
+# Last Modified: 12.04.2026 
 # ------------------------------------------------------------------------
 # MIT License
 # ------------------------------------------------------------------------
@@ -76,9 +76,14 @@ def main(host: str, dbhost: str):
             dev_ids = list(session.exec(statement).all())
             data = []
             for dev_id in dev_ids:
-                statement = select(temp.Temperature.celsius).where(temp.Temperature.dev_id == dev_id) 
+                statement = select(temp.Temperature.celsius, temp.Temperature.backend_timestamp).where(temp.Temperature.dev_id == dev_id) 
                 temperatures = list(session.exec(statement).all())
-                data.append({"dev_id": dev_id, "celsius": temperatures})
+                celsius = []
+                time = []
+                for t in temperatures:
+                    celsius.append(t[0])
+                    time.append(t[1])
+                data.append({"dev_id": dev_id, "celsius": celsius, "time": time})
             return data
 
     @app.delete('/api/v1/temperature')
